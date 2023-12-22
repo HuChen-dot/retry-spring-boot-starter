@@ -2,7 +2,9 @@ package com.retry.pojo;
 
 import com.retry.annotation.Retryable;
 import lombok.Data;
-
+/**
+ * @author chenhu
+ */
 @Data
 public class RetryInfo {
     /**

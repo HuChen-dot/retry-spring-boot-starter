@@ -5,7 +5,9 @@ import lombok.Data;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-
+/**
+ * @author chenhu
+ */
 @Data
 public class AsyncTask implements Delayed {
 

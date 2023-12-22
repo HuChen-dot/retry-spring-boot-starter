@@ -1,4 +1,4 @@
-package com.retry.strategy.annotation;
+package com.retry.strategy;
 
 import com.retry.pojo.AsyncTask;
 import com.retry.pojo.RetryInfo;
@@ -9,6 +9,9 @@ import javax.annotation.PostConstruct;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * @author chenhu
+ */
 @Component
 @Slf4j
 public class AsyncRetryInit extends AbstractParentRetryStrategy {

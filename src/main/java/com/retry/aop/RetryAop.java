@@ -3,9 +3,9 @@ package com.retry.aop;
 
 import com.retry.annotation.Retryable;
 import com.retry.pojo.RetryInfo;
-import com.retry.strategy.annotation.RetryStrategy;
-import com.retry.strategy.annotation.AsyncRetryStrategy;
-import com.retry.strategy.annotation.SyncRetryStrategy;
+import com.retry.strategy.RetryStrategy;
+import com.retry.strategy.AsyncRetryStrategy;
+import com.retry.strategy.SyncRetryStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
