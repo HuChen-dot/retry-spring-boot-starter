@@ -32,7 +32,7 @@ public abstract class AbstractParentRetryStrategy implements RetryStrategy {
     Object callBack(RetryInfo retryInfo) throws Throwable {
         String callbackMethod = retryInfo.getRetryable().callbackMethod();
         if ("".equals(callbackMethod)) {
-            log.error(retryInfo.getClassName() + "." + retryInfo.getMethodName() + ": 方法重试：{} 次后依然失败，错误是：", retryInfo.getRetryable().maxAttempts(), retryInfo.getE());
+            log.error("traceId: " + retryInfo.getTraceId() + " " + retryInfo.getClassName() + "." + retryInfo.getMethodName() + ": 方法重试：{} 次后依然失败，错误是：", retryInfo.getRetryable().maxAttempts(), retryInfo.getE());
             throw retryInfo.getE();
         }
 
@@ -55,7 +55,7 @@ public abstract class AbstractParentRetryStrategy implements RetryStrategy {
             }
         }
         if (method == null) {
-            log.error(retryInfo.getClassName() + "." + retryInfo.getMethodName() + ": 设置的回调方法在类中未找到，设置的方法名为：{} ，错误是：", callbackMethod, retryInfo.getE());
+            log.error("traceId: " + retryInfo.getTraceId() + " "+retryInfo.getClassName() + "." + retryInfo.getMethodName() + ": 设置的回调方法在类中未找到，设置的方法名为：{} ，错误是：", callbackMethod, retryInfo.getE());
             throw retryInfo.getE();
         }
         Object result = null;
@@ -75,7 +75,7 @@ public abstract class AbstractParentRetryStrategy implements RetryStrategy {
         try {
             result = method.invoke(target, ags);
         } catch (Throwable e1) {
-            log.error(retryInfo.getClassName() + "." + retryInfo.getMethodName() + ": 兜底方法：{}，执行失败，猜测原因：参数设置错误，兜底方法参数的设置规则为：可以不接收任何参数 或者 有参数但是第一个参数必须为重试的异常或者父异常，其他参数和参数位置顺序和原始方法保持一致并且参数类型不能是基本数据类型，具体堆栈信息：", method.getName(), e1);
+            log.error("traceId: " + retryInfo.getTraceId() + " "+retryInfo.getClassName() + "." + retryInfo.getMethodName() + ": 兜底方法：{}，执行失败，猜测原因：参数设置错误，兜底方法参数的设置规则为：可以不接收任何参数 或者 有参数但是第一个参数必须为重试的异常或者父异常，其他参数和参数位置顺序和原始方法保持一致并且参数类型不能是基本数据类型，具体堆栈信息：", method.getName(), e1);
             throw e1;
         }
         return result;

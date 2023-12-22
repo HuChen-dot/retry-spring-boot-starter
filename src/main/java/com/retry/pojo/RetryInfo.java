@@ -37,6 +37,11 @@ public class RetryInfo {
      */
     private Retryable retryable;
 
+    /**
+     * 链路id
+     */
+    private String traceId;
+
 
 
 

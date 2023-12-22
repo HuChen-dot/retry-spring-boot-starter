@@ -40,13 +40,13 @@ public class AsyncRetryInit extends AbstractParentRetryStrategy {
                             // 执行原始方法
                             run(take.getRetryInfo().getClassName(),take.getRetryInfo().getMethodName(),take.getRetryInfo().getArgs());
                         } catch (Exception e) {
-                            log.error(take.getRetryInfo().getClassName() + "." + take.getRetryInfo().getMethodName() + ": 第 " + i + " 次重试异常：", e);
+                            log.error("traceId: " + take.getRetryInfo().getTraceId() + " "+take.getRetryInfo().getClassName() + "." + take.getRetryInfo().getMethodName() + ": 第 " + i + " 次重试异常：", e);
 
                             if( i>=take.getRetryInfo().getRetryable().maxAttempts()){
                                 try {
                                     callBack(take.getRetryInfo());
                                 } catch (Throwable e1) {
-                                    log.error(take.getRetryInfo().getClassName() + "." + take.getRetryInfo().getMethodName() + ": 兜底方法执行失败",e1);
+                                    log.error("traceId: " + take.getRetryInfo().getTraceId() + " "+take.getRetryInfo().getClassName() + "." + take.getRetryInfo().getMethodName() + ": 兜底方法执行失败",e1);
                                 }
                             }else {
                                 double multiplier = take.getRetryInfo().getRetryable().multiplier();

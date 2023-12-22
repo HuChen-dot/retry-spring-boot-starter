@@ -39,7 +39,7 @@ public class SyncRetryStrategy extends AbstractParentRetryStrategy {
                 flag = true;
                 initCount += count;
             } catch (Throwable ex) {
-                log.error(retryInfo.getClassName() + "." + retryInfo.getMethodName() + ": 第 " + initCount + " 次重试异常：", ex);
+                log.error("traceId: " + retryInfo.getTraceId() + retryInfo.getClassName() + "." + retryInfo.getMethodName() + ": 第 " + initCount + " 次重试异常：", ex);
                 initCount++;
                 double multiplier = retryInfo.getRetryable().multiplier();
                 // 计算延迟时间

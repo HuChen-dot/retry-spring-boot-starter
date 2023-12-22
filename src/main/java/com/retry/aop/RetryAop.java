@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @Author: hu.chen
@@ -43,7 +44,8 @@ public class RetryAop {
         if (retryable == null) {
             return point.proceed(args);
         }
-        log.info("开始执行被保护的逻辑，方法参数：{}", args);
+        String traceId = UUID.randomUUID().toString();
+        log.info("traceId: " + traceId + " 开始执行被保护的逻辑，方法参数：{}", args);
         Object result = null;
         try {
             result = point.proceed(args);
@@ -62,7 +64,7 @@ public class RetryAop {
                 }
             }
             if (flag) {
-                log.error("任务执行失败，等待重试.........");
+                log.error("traceId: " + traceId + " 任务执行失败，等待重试.........");
                 RetryInfo retryInfo = new RetryInfo();
                 retryInfo.setRetryable(retryable);
                 retryInfo.setArgs(args);
@@ -70,6 +72,7 @@ public class RetryAop {
                 retryInfo.setClassName(point.getSignature().getDeclaringType().getCanonicalName());
                 retryInfo.setMethodName(point.getSignature().getName());
                 retryInfo.setMethodReturnType(((MethodSignature) point.getSignature()).getMethod().getReturnType());
+                retryInfo.setTraceId(traceId);
                 return doRetry(retryInfo);
             }
             throw e;
