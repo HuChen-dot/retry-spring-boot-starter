@@ -24,8 +24,6 @@ public class AsyncRetryInit extends AbstractParentRetryStrategy {
 
     @PostConstruct
     public void run() {
-
-
         new Thread(() -> {
             while (true) {
                 try {
@@ -35,7 +33,6 @@ public class AsyncRetryInit extends AbstractParentRetryStrategy {
                     executor.execute(()->{
                         AtomicInteger retryCount = take.getRetryCount();
                         int i = retryCount.addAndGet(1);
-
                         try {
                             // 执行原始方法
                             run(take.getRetryInfo().getClassName(),take.getRetryInfo().getMethodName(),take.getRetryInfo().getArgs());
@@ -53,7 +50,6 @@ public class AsyncRetryInit extends AbstractParentRetryStrategy {
                                 // 计算延迟时间
                                 long delay = (long) (take.getRetryInfo().getRetryable().delay() * multiplier);
 
-                                // 放进延时队列中
                                 AsyncTask asyncTask =new AsyncTask(take.getRetryInfo(),delay);
                                 asyncTask.setRetryCount(new AtomicInteger(i));
                                 // 再次放入延时队列中等待执行
@@ -61,18 +57,12 @@ public class AsyncRetryInit extends AbstractParentRetryStrategy {
                             }
 
                         }
-
-
                     });
 
                 } catch (Exception e) {
                     log.error("AsyncRetryInit获取任务失败", e);
                 }
-
-
             }
-
-
         }).start();
 
 
